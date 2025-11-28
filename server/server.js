@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import { exec } from 'child_process';
 
 // Import routes
 import authRoutes from './src/routes/auth.js';
@@ -17,6 +18,15 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5000;
+
+// Auto-run Prisma migrations on startup (for Render free plan)
+exec('npx prisma migrate deploy', (err, stdout, stderr) => {
+  if (err) {
+    console.error('Migration error:', stderr);
+  } else {
+    console.log('Migration complete:', stdout);
+  }
+});
 
 // Middleware
 app.use(cors());
@@ -62,6 +72,7 @@ process.on('SIGTERM', async () => {
 app.listen(PORT, () => {
   console.log(`🚀 ZNOTE Server running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`✅ Prisma migrations running automatically on startup`);
 });
 
 export { prisma };
