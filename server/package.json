@@ -1,0 +1,29 @@
+{
+  "name": "znote-server",
+  "version": "1.0.0",
+  "description": "ZNOTE Backend API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
+  },
+  "keywords": ["productivity", "notes", "tasks"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.19.0",
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "@google/generative-ai": "^0.17.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.19.0"
+  }
+}

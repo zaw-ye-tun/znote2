@@ -1,0 +1,29 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore build outputs
+dist/
+build/
+*.log
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore Prisma generated files (regenerate with npx prisma generate)
+# server/node_modules/.prisma/
+# server/node_modules/@prisma/
+
+# Keep .env.example
+!.env.example

@@ -1,0 +1,104 @@
+// Prisma Schema for ZNOTE
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  username  String
+  xp        Int      @default(0)
+  level     Int      @default(1)
+  streak    Int      @default(0)
+  lastLogin DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notes     Note[]
+  tasks     Task[]
+  ideas     Idea[]
+  events    Event[]
+  xpHistory XpHistory[]
+
+  @@index([email])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @db.Text
+  tags      String[] @default([])
+  pinned    Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  completed   Boolean  @default(false)
+  priority    String   @default("medium") // low, medium, high
+  dueDate     DateTime?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([completed])
+  @@index([dueDate])
+}
+
+model Idea {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @db.Text
+  tags      String[] @default([])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  startDate   DateTime
+  endDate     DateTime?
+  allDay      Boolean  @default(false)
+  color       String   @default("#3b82f6")
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([startDate])
+}
+
+model XpHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String   // "complete_task", "create_note", "add_event", "daily_login", "weekly_streak"
+  xpGained  Int
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
