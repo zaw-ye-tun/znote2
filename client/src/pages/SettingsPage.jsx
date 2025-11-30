@@ -171,6 +171,17 @@ export default function SettingsPage() {
           ZNOTE is a minimalist, gamified productivity app for students, engineers, and anyone who values clean, efficient organization.
         </p>
         <p className="text-xs text-gray-500 mt-4">Version 1.0.0</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
+          Made with ❤️ by{' '}
+          <a
+            href="https://www.linkedin.com/in/zaw-ye-tun/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+          >
+            Zaw Ye Tun
+          </a>
+        </p>
       </div>
     </div>
   );
